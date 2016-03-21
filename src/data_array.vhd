@@ -1,6 +1,6 @@
-LIBRARY IEEE;
+LIBRARY ieee;
 use IEEE.std_logic_1164.all;
-use IEEE.std_logic_unsigned.all;
+use IEEE.numeric_std.all;
 
 entity data_array is
     port(clk, wren:in STD_LOGIC;
@@ -23,9 +23,9 @@ begin
     begin
         if(wren = '1') then
             data <= wrdata;
-            data_array(conv_integer(address)) <= wrdata;
+            data_array(to_integer(unsigned(address))) <= wrdata;
         else
-            data <= data_array(conv_integer(address));
+            data <= data_array(to_integer(unsigned(address)));
         end if;
     end process;
 

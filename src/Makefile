@@ -1,8 +1,8 @@
-compile: data_array.vhd data_array_t.vhdl
-	ghdl -a -fexplicit --ieee=synopsys data_array.vhd
-clean: data_array.o
-	rm data_array.o work-obj93.cf
+compile: data_array.vhd data_array_tb.vhd
+	ghdl -a -fexplicit --ieee=synopsys data_array.vhd data_array_tb.vhd
+clean:
+	rm *.o work-obj93.cf *.vcd
 simulate: data_array.o
-	ghdl -e data_array_t
+	ghdl -e data_array_tb
 wave:
-	ghdl -r data_array_t --vcd=data_array_t.vcd
+	ghdl -r data_array_tb --vcd=data_array_tb.vcd
