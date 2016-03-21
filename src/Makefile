@@ -5,7 +5,7 @@ clean:
 simulate: data_array.o
 	ghdl -e data_array_tb
 wave:
-	ghdl -r data_array_tb --vcd=data_array_tb.vcd
+	ghdl -r data_array_tb --stop-time=40ns --vcd=data_array_tb.vcd
 show:
 	gtkwave data_array_tb.vcd
 all: | compile simulate wave show
