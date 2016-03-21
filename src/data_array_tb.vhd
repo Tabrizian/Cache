@@ -15,7 +15,8 @@ architecture test_bench of data_array_tb is
              data:out STD_LOGIC_VECTOR(31 downto 0));
     end component;
 
-    signal clk, wren :STD_LOGIC;
+    signal clk : STD_LOGIC := '0';
+    signal wren :STD_LOGIC;
     signal wrdata, data :STD_LOGIC_VECTOR(31 downto 0);
     signal address :STD_LOGIC_VECTOR(5 downto 0);
 
@@ -25,6 +26,8 @@ begin
     address <= "000000";
     wren <= '1';
     wrdata <= STD_LOGIC_VECTOR(to_unsigned(9,32));
-    clk <= '0' after 0 ns, '1' after 10 ns;
 
+    CLOCK:
+    clk <= '1' after 1 ns when clk = '0' else
+             '0' after 1 ns when clk = '1';
 end test_bench;
