@@ -25,5 +25,6 @@ begin
     address <= "000000";
     wren <= '1';
     wrdata <= STD_LOGIC_VECTOR(to_unsigned(9,32));
+    clk <= '0' after 0 ns, '1' after 10 ns;
 
 end test_bench;

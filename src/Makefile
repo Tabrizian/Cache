@@ -6,3 +6,6 @@ simulate: data_array.o
 	ghdl -e data_array_tb
 wave:
 	ghdl -r data_array_tb --vcd=data_array_tb.vcd
+show:
+	gtkwave data_array_tb.vcd
+all: | clean compile simulate wave show clean
