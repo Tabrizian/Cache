@@ -8,4 +8,4 @@ wave:
 	ghdl -r data_array_tb --vcd=data_array_tb.vcd
 show:
 	gtkwave data_array_tb.vcd
-all: | clean compile simulate wave show clean
+all: | compile simulate wave show
