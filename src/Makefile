@@ -1,3 +1,4 @@
+all: | compile simulate wave show
 compile: data_array.vhd data_array_tb.vhd
 	ghdl -a -fexplicit --ieee=synopsys data_array.vhd data_array_tb.vhd
 clean:
@@ -8,4 +9,3 @@ wave:
 	ghdl -r data_array_tb_out --stop-time=40ns --vcd=data_array_tb.vcd
 show:
 	gtkwave data_array_tb.vcd
-all: | compile simulate wave show
