@@ -4,8 +4,8 @@ FILES = src/data_array.vhd src/tag_valid_array.vhd
 # Testbench
 TESTDIR = test
 TESTFILES = $(TESTDIR)/data_array_tb.vhd $(TESTDIR)/tag_valid_array_tb.vhd
-SUFFIX = _out # Suffix of files created using -e option
-MODULE = tag_valid_array # Show wave of this module
+SUFFIX = _out# Suffix of files created using -e option
+MODULE = tag_valid_array# Show wave of this module
 STOPTIME = 40ns
 
 # Run
