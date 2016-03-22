@@ -1,17 +1,26 @@
-
 # VHDL files
-FILES = src/data_array.vhd
-all: | data_array simulate wave show
-data_array: data_array.vhd data_array_tb.vhd
-	ghdl -a -fexplicit --ieee=synopsys data_array.vhd data_array_tb.vhd
-tag_valid: tag_valid_array.vhd tag_valid_array_tb.vhd
-	ghdl -a -fexplicit --ieee=synopsys tag_valid_array.vhd tag_valid_array_tb.vhd
+FILES = src/data_array.vhd src/tag_valid_array.vhd
+
+# Testbench
+TESTDIR = test
+TESTFILES = $(TESTDIR)/data_array_tb.vhd $(TESTDIR)/tag_valid_array_tb.vhd
+SUFFIX = _out # Suffix of files created using -e option
+MODULE = tag_valid_array # Show wave of this module
+STOPTIME = 40ns
+
+# Run
+RUN_FLAGS = --stop-time=$(STOPTIME) --vcd=$(MODULE).vcd
+
+# GHDL command
+GHDL_CMD = ghdl
+GHDL_FLAGS = -fexplicit --ieee=synopsys
+
+ghdl-compile: $(FILES) $(TESTFILES)
+	$(GHDL_CMD) -a $(GHDL_FLAGS) $(FILES) $(TESTFILES)
 clean:
-	rm *.o work-obj93.cf *.vcd *_out
-simulate: data_array.o tag_valid_array.o
-	ghdl -e -o data_array_tb_out data_array_tb
-	ghdl -e -o tag_valid_array_tb_out tag_valid_array_tb
-wave:
-	ghdl -r tag_valid_array_tb_out --stop-time=40ns --vcd=tag_valid_array_tb.vcd
+	rm *.o work-obj93.cf *.vcd *$(SUFFIX)
+ghdl-simulate:
+	$(GHDL_CMD) -e -o $(MODULE)$(SUFFIX) $(MODULE)
 show:
-	gtkwave tag_valid_array_tb.vcd
+	$(GHDL_CMD) -r $(MODULE)$(SUFFIX) $(RUN_FLAGS)
+	gtkwave $(MODULE).vcd
