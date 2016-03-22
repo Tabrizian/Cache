@@ -22,7 +22,9 @@ begin
         end if;
 
         if(invalidate = '1') then
-            data_array(to_integer(unsigned(address)))(0) <= '0';
+            data_array(to_integer(unsigned(address)))(0) <= not data_array(to_integer(unsigned(address)))(0);
+        end if;
+
         output <= data_array(to_integer(unsigned(address)));
 
     end process;
