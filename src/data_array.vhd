@@ -22,11 +22,10 @@ begin
     process(clk)
     begin
         if(wren = '1') then
-            data <= wrdata;
             data_array(to_integer(unsigned(address))) <= wrdata;
-        else
-            data <= data_array(to_integer(unsigned(address)));
         end if;
+
+        data <= data_array(to_integer(unsigned(address)));
     end process;
 
 end behavorial_data_array;
