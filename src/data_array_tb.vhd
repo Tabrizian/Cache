@@ -30,4 +30,7 @@ begin
     CLOCK:
     clk <= '1' after 1 ns when clk = '0' else
              '0' after 1 ns when clk = '1';
+
+    address <= "111111" after 4 ns;
+    wrdata <= STD_LOGIC_VECTOR(to_unsigned(45,32));
 end test_bench;
