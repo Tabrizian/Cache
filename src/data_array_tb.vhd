@@ -23,14 +23,13 @@ architecture test_bench of data_array_tb is
 begin
     mapping: data_array port map(clk, wren, address, wrdata, data);
 
-    address <= "000000";
+    address <= "000000" after 0 ns, "111111" after 10 ns;
     wren <= '1';
-    wrdata <= STD_LOGIC_VECTOR(to_unsigned(9,32));
+    wrdata <= STD_LOGIC_VECTOR(to_unsigned(9,32)) after 0 ns,
+              STD_LOGIC_VECTOR(to_unsigned(45,32)) after 10 ns;
 
     CLOCK:
     clk <= '1' after 1 ns when clk = '0' else
              '0' after 1 ns when clk = '1';
 
-    address <= "111111" after 4 ns;
-    wrdata <= STD_LOGIC_VECTOR(to_unsigned(45,32));
 end test_bench;
