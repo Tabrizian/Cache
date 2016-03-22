@@ -29,4 +29,10 @@ begin
 
     wrdata <= STD_LOGIC_VECTOR(to_unsigned(9, 4)) after 0 ns,
               STD_LOGIC_VECTOR(to_unsigned(7, 4)) after 10 ns;
+
+    reset_n <= '0';
+    invalidate <= '0';
+    CLOCK:
+    clk <= '1' after 1 ns when clk = '0' else
+             '0' after 1 ns when clk = '1';
 end test_bench;
