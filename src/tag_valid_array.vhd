@@ -25,7 +25,12 @@ begin
             data_array(to_integer(unsigned(address)))(0) <= '1';
         end if;
 
+        if(reset_n = '1') then
+            data_array <= (others => std_logic_vector(to_unsigned(0,5)));
+        end if;
         output <= data_array(to_integer(unsigned(address)));
+
+
 
     end process;
 end behavorial;
