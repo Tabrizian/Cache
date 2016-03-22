@@ -15,6 +15,8 @@ RUN_FLAGS = --stop-time=$(STOPTIME) --vcd=$(MODULE).vcd
 GHDL_CMD = ghdl
 GHDL_FLAGS = -fexplicit --ieee=synopsys
 
+all: | ghld-compile ghdl-simulate show
+
 ghdl-compile: $(FILES) $(TESTFILES)
 	$(GHDL_CMD) -a $(GHDL_FLAGS) $(FILES) $(TESTFILES)
 clean:
