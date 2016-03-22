@@ -1,3 +1,6 @@
+
+# VHDL files
+FILES = src/data_array.vhd
 all: | data_array simulate wave show
 data_array: data_array.vhd data_array_tb.vhd
 	ghdl -a -fexplicit --ieee=synopsys data_array.vhd data_array_tb.vhd
