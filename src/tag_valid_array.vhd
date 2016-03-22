@@ -18,12 +18,12 @@ begin
     process(clk)
     begin
         if(wren = '1') then
-            output(4 downto 1) <= wrdata;
-            output(0) <= data_array(to_integer(unsigned(address)))(0);
             data_array(to_integer(unsigned(address)))(4 downto 1) <= wrdata;
-        else
-            output <= data_array(to_integer(unsigned(address)));
         end if;
+
+        if(invalidate = '1') then
+            data_array(to_integer(unsigned(address)))(0) <= '0';
+        output <= data_array(to_integer(unsigned(address)));
 
     end process;
 end behavorial;
