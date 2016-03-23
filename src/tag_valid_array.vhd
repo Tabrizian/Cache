@@ -3,7 +3,7 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity tag_valid_array is
-    port(clk,wren,reset_n,invalidate:in STD_LOGIC;
+    port(clk,wren,reset_n,invalidate,validate:in STD_LOGIC;
          address:in STD_LOGIC_VECTOR(5 downto 0);
          wrdata:in STD_LOGIC_VECTOR(3 downto 0);
          output:out STD_LOGIC_VECTOR(4 downto 0)
@@ -22,6 +22,10 @@ begin
         end if;
 
         if(invalidate = '1') then
+            data_array(to_integer(unsigned(address)))(0) <= '0';
+        end if;
+
+        if(validate = '1') then
             data_array(to_integer(unsigned(address)))(0) <= '1';
         end if;
 
