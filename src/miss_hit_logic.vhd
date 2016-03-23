@@ -24,6 +24,6 @@ begin
     is_w1 <= equal_w1(3) and equal_w1(2) and equal_w1(1) and equal_w1(0);
     w0_valid <= is_w0 and w0(4);
     w1_valid <= is_w1 and w1(4);
-    hit <= w0_valid or w1_valid;
+    hit <= (is_w0 and w0(4)) or (is_w1 and w1(4));
 end gate_level;
 
