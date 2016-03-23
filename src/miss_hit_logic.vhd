@@ -14,7 +14,19 @@ end miss_hit_logic;
 
 architecture behavorial of miss_hit_logic is
 begin
-    if w0 = "00000" then
+    process
+    begin
+        if (w0(0) = '1' and w0(4 downto 1) = tag) then
+            hit <= '1';
+            w0_valid <= '1';
+        elsif(w1(0) = '1' and w1(4 downto 1) = tag) then
+            hit <= '1';
+            w1_valid <= '1';
+        else
+            hit <= '0';
+            w1_valid <= '0';
+            w0_valid <= '0';
         end if;
+    end process;
 end behavorial;
 
