@@ -16,7 +16,8 @@ architecture test_bench of lru_array_tb is
          );
     end component;
     signal address : STD_LOGIC_VECTOR(5 downto 0);
-    signal k,update,clk,w0_valid : STD_LOGIC;
+    signal k,update,w0_valid : STD_LOGIC;
+    signal clk : STD_LOGIC := '0';
 begin
     mapping: lru_array port map(address,k,update,clk,w0_valid);
 
