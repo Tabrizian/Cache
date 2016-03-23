@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity miss_hit_logic_tb is
     end miss_hit_logic_tb;
 
-architecture behavorial of miss_hit_logic_tb is
+architecture test_bench of miss_hit_logic_tb is
     component miss_hit_logic is
         port(tag : in STD_LOGIC_VECTOR(3 downto 0);
              w0 : in STD_LOGIC_VECTOR(4 downto 0);
@@ -23,8 +23,8 @@ architecture behavorial of miss_hit_logic_tb is
 begin
     mapping: miss_hit_logic port map(tag,w0,w1,hit,w0_valid,w1_valid);
 
-    tag <= "0100";
-    w0 <= "10111";
-    w1 <= "10100";
+    tag <= "0100" after 0 ns;
+    w0 <= "10111" after 0 ns, "10100" after 2 ns;
+    w1 <= "10100" after 0 ns,"00100" after 1 ns,"01100" after 2 ns;
 
-end behavorial;
+end test_bench;
