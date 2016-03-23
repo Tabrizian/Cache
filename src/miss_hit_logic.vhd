@@ -12,21 +12,18 @@ entity miss_hit_logic is
      );
 end miss_hit_logic;
 
-architecture behavorial of miss_hit_logic is
+architecture gate_level of miss_hit_logic is
+    signal equal_w0: STD_LOGIC_VECTOR(3 downto 0);
+    signal equal_w1: STD_LOGIC_VECTOR(3 downto 0);
+    signal is_w0: STD_LOGIC;
+    signal is_w1: STD_LOGIC;
 begin
-    process(w0,w1,tag)
-    begin
-        if (w0(4) = '1' and w0(3 downto 0) = tag) then
-            hit <= '1';
-            w0_valid <= '1';
-        elsif(w1(4) = '1' and w1(3 downto 0) = tag) then
-            hit <= '1';
-            w1_valid <= '1';
-        else
-            hit <= '0';
-            w1_valid <= '0';
-            w0_valid <= '0';
-        end if;
-    end process;
-end behavorial;
+    equal_w0 <= w0(3 downto 0) xnor tag;
+    equal_w1 <= w1(3 downto 0) xnor tag;
+    is_w0 <= equal_w0(3) and equal_w0(2) and equal_w0(1) and equal_w0(0);
+    is_w1 <= equal_w1(3) and equal_w1(2) and equal_w1(1) and equal_w1(0);
+    w0_valid <= is_w0 and w0(4);
+    w1_valid <= is_w1 and w1(4);
+    hit <= w0_valid or w1_valid;
+end gate_level;
 
