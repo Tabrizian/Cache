@@ -31,6 +31,6 @@ begin
 
     CLOCK:
     clk <= '1' after 1 ns when clk = '0' else
-             '0' after 1 ns when clk = '1';
+           '0' after 1 ns when clk = '1';
 
 end test_bench;
