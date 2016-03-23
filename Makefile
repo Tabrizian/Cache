@@ -1,11 +1,12 @@
 # VHDL files
-FILES = src/data_array.vhd src/tag_valid_array.vhd
+SRCDIR = src
+FILES = $(SRCDIR)/data_array.vhd $(SRCDIR)/tag_valid_array.vhd $(SRCDIR)/miss_hit_logic.vhd
 
 # Testbench
 TESTDIR = test
-TESTFILES = $(TESTDIR)/data_array_tb.vhd $(TESTDIR)/tag_valid_array_tb.vhd
+TESTFILES = $(TESTDIR)/data_array_tb.vhd $(TESTDIR)/tag_valid_array_tb.vhd $(TESTDIR)/miss_hit_logic_tb.vhd
 SUFFIX = _out# Suffix of files created using -e option
-MODULE = tag_valid_array_tb# Show wave of this module
+MODULE = miss_hit_logic_tb# Show wave of this module
 STOPTIME = 40ns
 
 # Run
