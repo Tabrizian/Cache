@@ -10,7 +10,7 @@ MODULE = miss_hit_logic_tb# Show wave of this module
 STOPTIME = 40ns
 
 # Run
-RUN_FLAGS = --stop-time=$(STOPTIME) --vcd=$(MODULE).vcd
+RUN_FLAGS = --vcd=$(MODULE).vcd
 
 # GHDL command
 GHDL_CMD = ghdl

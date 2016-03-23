@@ -14,12 +14,12 @@ end miss_hit_logic;
 
 architecture behavorial of miss_hit_logic is
 begin
-    process
+    process(w0,w1,tag)
     begin
-        if (w0(0) = '1' and w0(4 downto 1) = tag) then
+        if (w0(4) = '1' and w0(3 downto 0) = tag) then
             hit <= '1';
             w0_valid <= '1';
-        elsif(w1(0) = '1' and w1(4 downto 1) = tag) then
+        elsif(w1(4) = '1' and w1(3 downto 0) = tag) then
             hit <= '1';
             w1_valid <= '1';
         else
