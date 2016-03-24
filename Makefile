@@ -1,6 +1,6 @@
 # VHDL files
 SRCDIR = src
-FILES = $(SRCDIR)/data_array.vhd $(SRCDIR)/tag_valid_array.vhd $(SRCDIR)/miss_hit_logic.vhd $(SRCDIR)/lru_array.vhd
+FILES = $(SRCDIR)/data_array.vhd $(SRCDIR)/tag_valid_array.vhd $(SRCDIR)/miss_hit_logic.vhd $(SRCDIR)/lru_array.vhd $(SRCDIR)/cache.vhd
 
 # Testbench
 TESTDIR = test
