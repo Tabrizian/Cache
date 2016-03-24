@@ -8,7 +8,7 @@ entity cache is
          wrdata :in STD_LOGIC_VECTOR(31 downto 0);
          validity :in STD_LOGIC;
          data: out STD_LOGIC_VECTOR(31 downto 0);
-         hit: in STD_LOGIC
+         hit: out STD_LOGIC
      );
 end cache;
 
@@ -21,12 +21,61 @@ architecture gate_level of cache is
          );
     end component;
 
-        type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
-        signal k0_data : STD_LOGIC_VECTOR(31 downto 0);
-        signal k1_data : STD_LOGIC_VECTOR(31 downto 0);
-        signal k0_wren : STD_LOGIC;
-        signal k1_wren : STD_LOGIC;
+    component tag_valid_array is
+        port(clk,wren,reset_n,validity:in STD_LOGIC;
+             address:in STD_LOGIC_VECTOR(5 downto 0);
+             wrdata:in STD_LOGIC_VECTOR(3 downto 0);
+             output:out STD_LOGIC_VECTOR(4 downto 0)
+         );
+    end component;
+
+    component lru_array is
+        port(address : in STD_LOGIC_VECTOR(5 downto 0);
+             k : in STD_LOGIC;
+             update : in STD_LOGIC;
+             clk : in STD_LOGIC;
+             w0_valid : out STD_LOGIC
+         );
+    end component;
+
+    component miss_hit_logic is
+        port(tag : in STD_LOGIC_VECTOR(3 downto 0);
+             w0 : in STD_LOGIC_VECTOR(4 downto 0);
+             w1 : in STD_LOGIC_VECTOR(4 downto 0);
+             hit : out STD_LOGIC;
+             w0_valid : out STD_LOGIC;
+             w1_valid : out STD_LOGIC
+         );
+    end component;
+
+    type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
+    signal k0_data : STD_LOGIC_VECTOR(31 downto 0);
+    signal k1_data : STD_LOGIC_VECTOR(31 downto 0);
+    signal k0_tag_valid_out : STD_LOGIC_VECTOR(4 downto 0);
+    signal k1_tag_valid_out : STD_LOGIC_VECTOR(4 downto 0);
+    signal k0_wren : STD_LOGIC;
+    signal k1_wren : STD_LOGIC;
+    signal k : STD_LOGIC;
+    signal w0_valid, w1_valid : STD_LOGIC;
+    signal not_wren : STD_LOGIC;
 begin
+    --Data array instantiation--
     k0_data_array: data_array port map(clk ,k0_wren ,full_address(5 downto 0),wrdata , k0_data);
     k1_data_array: data_array port map(clk ,k1_wren ,full_address(5 downto 0),wrdata , k1_data);
+    --Tag valid instantiation--
+    k0_tag_valid: tag_valid_array port map(clk, k0_wren, reset_n,validity,
+    full_address(5 downto 0), full_address(9 downto 6),k0_tag_valid_out);
+
+    k1_tag_valid: tag_valid_array port map(clk, k1_wren, reset_n,validity,
+    full_address(5 downto 0), full_address(9 downto 6),k1_tag_valid_out);
+
+    --Miss hit instantiation--
+    miss_hit: miss_hit_logic port map(full_address(9 downto 6),k0_tag_valid_out
+    ,k1_tag_valid_out,hit);
+
+    --Lru array instantiation--
+    not_wren <= wren;
+    lru_logic: lru_array port map(full_address(5 downto 0),k,not_wren,
+    w0_valid, w1_valid);
+
 end gate_level;
