@@ -8,7 +8,7 @@ entity mux is
          w1:in STD_LOGIC_VECTOR(31 downto 0);
          output: out STD_LOGIC_VECTOR(31 downto 0)
      );
-end entity;
+end mux;
 
 architecture behavioral of mux is
 begin
