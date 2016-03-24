@@ -6,7 +6,7 @@ entity cache is
     port(clk, wren, reset_n :in STD_LOGIC;
          full_address :in STD_LOGIC_VECTOR(9 downto 0);
          wrdata :in STD_LOGIC_VECTOR(31 downto 0);
-         validity :in STD_LOGIC;
+         validate, invalidate :in STD_LOGIC;
          data: out STD_LOGIC_VECTOR(31 downto 0);
          hit: out STD_LOGIC
      );
@@ -22,7 +22,7 @@ architecture gate_level of cache is
     end component;
 
     component tag_valid_array is
-        port(clk,wren,reset_n,validity:in STD_LOGIC;
+        port(clk,wren,reset_n,validate,invalidate:in STD_LOGIC;
              address:in STD_LOGIC_VECTOR(5 downto 0);
              wrdata:in STD_LOGIC_VECTOR(3 downto 0);
              output:out STD_LOGIC_VECTOR(4 downto 0)
@@ -73,10 +73,10 @@ begin
     k1_data_array: data_array port map(clk ,k1_wren ,full_address(5 downto 0),wrdata , k1_data);
 
     --Tag valid instantiation--
-    k0_tag_valid: tag_valid_array port map(clk, k0_wren, reset_n,validity,
+    k0_tag_valid: tag_valid_array port map(clk, k0_wren, reset_n,validate,invalidate,
     full_address(5 downto 0), full_address(9 downto 6),k0_tag_valid_out);
 
-    k1_tag_valid: tag_valid_array port map(clk, k1_wren, reset_n,validity,
+    k1_tag_valid: tag_valid_array port map(clk, k1_wren, reset_n,validate,invalidate,
     full_address(5 downto 0), full_address(9 downto 6),k1_tag_valid_out);
 
     --Miss hit instantiation--
