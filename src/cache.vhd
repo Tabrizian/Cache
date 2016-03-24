@@ -48,6 +48,14 @@ architecture gate_level of cache is
          );
     end component;
 
+    component mux is
+        port(sel:in STD_LOGIC;
+             w0:in STD_LOGIC_VECTOR(31 downto 0);
+             w1:in STD_LOGIC_VECTOR(31 downto 0);
+             output: out STD_LOGIC_VECTOR(31 downto 0)
+         );
+    end component;
+
     type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
     signal k0_data : STD_LOGIC_VECTOR(31 downto 0);
     signal k1_data : STD_LOGIC_VECTOR(31 downto 0);
@@ -57,11 +65,13 @@ architecture gate_level of cache is
     signal k1_wren : STD_LOGIC;
     signal k : STD_LOGIC;
     signal w0_valid, w1_valid : STD_LOGIC;
+    signal w0_valid_lru : STD_LOGIC;
     signal not_wren : STD_LOGIC;
 begin
     --Data array instantiation--
     k0_data_array: data_array port map(clk ,k0_wren ,full_address(5 downto 0),wrdata , k0_data);
     k1_data_array: data_array port map(clk ,k1_wren ,full_address(5 downto 0),wrdata , k1_data);
+
     --Tag valid instantiation--
     k0_tag_valid: tag_valid_array port map(clk, k0_wren, reset_n,validity,
     full_address(5 downto 0), full_address(9 downto 6),k0_tag_valid_out);
@@ -71,11 +81,17 @@ begin
 
     --Miss hit instantiation--
     miss_hit: miss_hit_logic port map(full_address(9 downto 6),k0_tag_valid_out
-    ,k1_tag_valid_out,hit);
+    ,k1_tag_valid_out,w0_valid,w1_valid,hit);
 
     --Lru array instantiation--
     not_wren <= wren;
     lru_logic: lru_array port map(full_address(5 downto 0),k,not_wren,
-    w0_valid, w1_valid);
+    clk,w0_valid_lru);
 
+    k <= (wren and (not w0_valid_lru)) or ((not wren) and (not w0_valid));
+
+    k0_wren <= w0_valid_lru and wren;
+    k1_wren <= (not w0_valid_lru) and wren;
+
+    mux_2 : mux port map(k, k0_data, k1_data, data);
 end gate_level;
