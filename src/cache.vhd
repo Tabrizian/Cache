@@ -13,12 +13,20 @@ entity cache is
 end cache;
 
 architecture gate_level of cache is
-    type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
-    signal k0_data : data_array_data;
-    signal k1_data : data_array_data;
-    signal k0_wren : STD_LOGIC;
-    signal k1_wren : STD_LOGIC;
+    component data_array is
+        port(clk, wren:in STD_LOGIC;
+             address:in STD_LOGIC_VECTOR(5 downto 0);
+             wrdata:in STD_LOGIC_VECTOR(31 downto 0);
+             data:out STD_LOGIC_VECTOR(31 downto 0)
+         );
+    end component;
+
+        type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
+        signal k0_data : STD_LOGIC_VECTOR(31 downto 0);
+        signal k1_data : STD_LOGIC_VECTOR(31 downto 0);
+        signal k0_wren : STD_LOGIC;
+        signal k1_wren : STD_LOGIC;
 begin
-    k0_data_array: data_array port map(clk => clk,k0_wren => wren,
-                                       wrdata => wrdata, k0_data => data);
+    k0_data_array: data_array port map(clk ,k0_wren ,full_address(5 downto 0),wrdata , k0_data);
+    k1_data_array: data_array port map(clk ,k1_wren ,full_address(5 downto 0),wrdata , k1_data);
 end gate_level;
