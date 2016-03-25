@@ -19,13 +19,13 @@ architecture behavorial_data_array of data_array is
     type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
     signal data_array : data_array_data;
 begin
+    data <= data_array(to_integer(unsigned(address)));
     process(clk)
     begin
         if(wren = '1') then
             data_array(to_integer(unsigned(address))) <= wrdata;
         end if;
 
-        data <= data_array(to_integer(unsigned(address)));
     end process;
 
 end behavorial_data_array;
