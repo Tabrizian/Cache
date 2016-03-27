@@ -38,6 +38,6 @@ begin
     invalidate <= '0' after 0 ns;
 
     CLOCK:
-    clk <= '1' after 5 ns when clk = '0' else
-           '0' after 5 ns when clk = '1';
+    clk <= '1' after 1 ns when clk = '0' else
+           '0' after 1 ns when clk = '1';
 end test_bench;
