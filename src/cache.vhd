@@ -88,7 +88,7 @@ begin
     lru_logic: lru_array port map(full_address(5 downto 0),k,not_wren,
     clk,w0_valid_lru);
 
-    k <= (wren and (not w0_valid_lru)) or ((not wren) and (not w0_valid));
+    k <= (wren and (not w0_valid)) or ((not wren) and (not w0_valid));
 
     k0_wren <= w0_valid_lru and wren;
     k1_wren <= (not w0_valid_lru) and wren;
