@@ -25,7 +25,7 @@ begin
                 w1s(to_integer(unsigned(address))) <= w1s(to_integer(unsigned(address))) + 1;
             end if;
         else
-            if(w0s(to_integer(unsigned(address))) <
+            if(w0s(to_integer(unsigned(address))) <=
             w1s(to_integer(unsigned(address)))) then
                 w0_valid <= '1';
             else

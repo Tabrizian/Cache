@@ -27,8 +27,9 @@ begin
 
     full_address <= STD_LOGIC_VECTOR(to_unsigned(0,10)) after 0 ns,
                     STD_LOGIC_VECTOR(to_unsigned(45,10)) after 1 ns,
-                    STD_LOGIC_VECTOR(to_unsigned(0,10)) after 2 ns;
-    wren <= '1' after 0 ns, '0' after 2 ns;
+                    STD_LOGIC_VECTOR(to_unsigned(0,10)) after 2 ns,
+                    STD_LOGIC_VECTOR(to_unsigned(45,10)) after 3 ns;
+    wren <= '1' after 0 ns, '0' after 1 ns;
     wrdata <= STD_LOGIC_VECTOR(to_unsigned(9, 32)) after 0 ns,
               STD_LOGIC_VECTOR(to_unsigned(24,32)) after 1 ns;
     reset_n <= '0' after 0 ns;
@@ -36,6 +37,6 @@ begin
     invalidate <= '0' after 0 ns;
 
     CLOCK:
-    clk <= '1' after 1 ns when clk = '0' else
-           '0' after 1 ns when clk = '1';
+    clk <= '1' after 0.5 ns when clk = '0' else
+           '0' after 0.5 ns when clk = '1';
 end test_bench;
