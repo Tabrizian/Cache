@@ -1,0 +1,338 @@
+$date
+  Sun Mar 27 13:45:51 2016
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 1 ! clk $end
+$var reg 1 " wren $end
+$var reg 1 # reset_n $end
+$var reg 10 $ full_address[9:0] $end
+$var reg 32 % wrdata[31:0] $end
+$var reg 1 & validate $end
+$var reg 1 ' invalidate $end
+$var reg 32 ( data[31:0] $end
+$var reg 1 ) hit $end
+$scope module mapping $end
+$var reg 1 * clk $end
+$var reg 1 + wren $end
+$var reg 1 , reset_n $end
+$var reg 10 - full_address[9:0] $end
+$var reg 32 . wrdata[31:0] $end
+$var reg 1 / validate $end
+$var reg 1 0 invalidate $end
+$var reg 32 1 data[31:0] $end
+$var reg 1 2 hit $end
+$var reg 32 3 k0_data[31:0] $end
+$var reg 32 4 k1_data[31:0] $end
+$var reg 5 5 k0_tag_valid_out[4:0] $end
+$var reg 5 6 k1_tag_valid_out[4:0] $end
+$var reg 1 7 k0_wren $end
+$var reg 1 8 k1_wren $end
+$var reg 1 9 k $end
+$var reg 1 : w0_valid $end
+$var reg 1 ; w1_valid $end
+$var reg 1 < w0_valid_lru $end
+$var reg 1 = not_wren $end
+$scope module k0_data_array $end
+$var reg 1 > clk $end
+$var reg 1 ? wren $end
+$var reg 6 @ address[5:0] $end
+$var reg 32 A wrdata[31:0] $end
+$var reg 32 B data[31:0] $end
+$comment data_array is not handled $end
+$upscope $end
+$scope module k1_data_array $end
+$var reg 1 C clk $end
+$var reg 1 D wren $end
+$var reg 6 E address[5:0] $end
+$var reg 32 F wrdata[31:0] $end
+$var reg 32 G data[31:0] $end
+$comment data_array is not handled $end
+$upscope $end
+$scope module k0_tag_valid $end
+$var reg 1 H clk $end
+$var reg 1 I wren $end
+$var reg 1 J reset_n $end
+$var reg 1 K invalidate $end
+$var reg 1 L validate $end
+$var reg 6 M address[5:0] $end
+$var reg 4 N wrdata[3:0] $end
+$var reg 5 O output[4:0] $end
+$comment data_array is not handled $end
+$upscope $end
+$scope module k1_tag_valid $end
+$var reg 1 P clk $end
+$var reg 1 Q wren $end
+$var reg 1 R reset_n $end
+$var reg 1 S invalidate $end
+$var reg 1 T validate $end
+$var reg 6 U address[5:0] $end
+$var reg 4 V wrdata[3:0] $end
+$var reg 5 W output[4:0] $end
+$comment data_array is not handled $end
+$upscope $end
+$scope module miss_hit $end
+$var reg 4 X tag[3:0] $end
+$var reg 5 Y w0[4:0] $end
+$var reg 5 Z w1[4:0] $end
+$var reg 1 [ hit $end
+$var reg 1 \ w0_valid $end
+$var reg 1 ] w1_valid $end
+$var reg 4 ^ equal_w0[3:0] $end
+$var reg 4 _ equal_w1[3:0] $end
+$var reg 1 ` is_w0 $end
+$var reg 1 a is_w1 $end
+$upscope $end
+$scope module lru_logic $end
+$var reg 6 b address[5:0] $end
+$var reg 1 c k $end
+$var reg 1 d update $end
+$var reg 1 e clk $end
+$var reg 1 f w0_valid $end
+$comment w0s is not handled $end
+$comment w1s is not handled $end
+$upscope $end
+$scope module mux_2 $end
+$var reg 1 g sel $end
+$var reg 32 h w0[31:0] $end
+$var reg 32 i w1[31:0] $end
+$var reg 32 j output[31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+1"
+0#
+b0000000000 $
+b00000000000000000000000000001001 %
+1&
+0'
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU (
+0)
+0*
+1+
+0,
+b0000000000 -
+b00000000000000000000000000001001 .
+1/
+00
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 1
+02
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 3
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 4
+b00000 5
+b00000 6
+17
+08
+09
+0:
+0;
+1<
+1=
+0>
+1?
+b000000 @
+b00000000000000000000000000001001 A
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU B
+0C
+0D
+b000000 E
+b00000000000000000000000000001001 F
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU G
+0H
+1I
+0J
+0K
+1L
+b000000 M
+b0000 N
+b00000 O
+0P
+0Q
+0R
+0S
+1T
+b000000 U
+b0000 V
+b00000 W
+b0000 X
+b00000 Y
+b00000 Z
+0[
+0\
+0]
+b1111 ^
+b1111 _
+1`
+1a
+b000000 b
+0c
+1d
+0e
+1f
+0g
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU h
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU i
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU j
+#5000000
+1!
+b00000000000000000000000000001001 (
+1*
+b00000000000000000000000000001001 1
+b00000000000000000000000000001001 3
+1>
+b00000000000000000000000000001001 B
+1C
+1H
+1P
+1e
+b00000000000000000000000000001001 h
+b00000000000000000000000000001001 j
+#6000000
+b0001000000 $
+b00000000000000000000000000011000 %
+b0001000000 -
+b00000000000000000000000000011000 .
+b00000000000000000000000000011000 A
+b00000000000000000000000000011000 F
+b0001 N
+b0001 V
+b0001 X
+b1110 ^
+b1110 _
+0`
+0a
+#10000000
+0!
+b00000000000000000000000000011000 (
+0*
+b00000000000000000000000000011000 1
+b00000000000000000000000000011000 3
+b10000 5
+b10000 6
+0>
+b00000000000000000000000000011000 B
+0C
+0H
+b10000 O
+0P
+b10000 W
+b10000 Y
+b10000 Z
+0e
+b00000000000000000000000000011000 h
+b00000000000000000000000000011000 j
+#10500000
+0"
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU (
+0+
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU 1
+07
+19
+0=
+0?
+0I
+1c
+0d
+1g
+bUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU j
+#11000000
+b0000000000 $
+b00000000000000000000000000011000 (
+1)
+b0000000000 -
+b00000000000000000000000000011000 1
+12
+09
+1:
+1;
+b0000 N
+b0000 V
+b0000 X
+1[
+1\
+1]
+b1111 ^
+b1111 _
+1`
+1a
+0c
+0g
+b00000000000000000000000000011000 j
+#15000000
+1!
+1*
+b10001 5
+0;
+0<
+1>
+1C
+1H
+b10001 O
+1P
+b10001 Y
+0\
+b1110 ^
+0`
+1e
+0f
+#16000000
+b0001000000 $
+0)
+b0001000000 -
+02
+1;
+b0001 N
+b0001 V
+b0001 X
+1\
+0]
+b1111 ^
+b1110 _
+1`
+0a
+#20000000
+0!
+0*
+0>
+0C
+0H
+0P
+0e
+#25000000
+1!
+1*
+1>
+1C
+1H
+1P
+1e
+#30000000
+0!
+0*
+0>
+0C
+0H
+0P
+0e
+#35000000
+1!
+1*
+1>
+1C
+1H
+1P
+1e
+#40000000
+0!
+0*
+0>
+0C
+0H
+0P
+0e

@@ -26,17 +26,18 @@ begin
     mapping : cache port map(clk,wren,reset_n,full_address,wrdata,validate,invalidate,data,hit);
 
     full_address <= STD_LOGIC_VECTOR(to_unsigned(0,10)) after 0 ns,
-                    STD_LOGIC_VECTOR(to_unsigned(45,10)) after 1 ns,
-                    STD_LOGIC_VECTOR(to_unsigned(0,10)) after 2 ns,
-                    STD_LOGIC_VECTOR(to_unsigned(45,10)) after 3 ns;
-    wren <= '1' after 0 ns, '0' after 1 ns;
+                    STD_LOGIC_VECTOR(to_unsigned(64,10)) after 6 ns,
+                    STD_LOGIC_VECTOR(to_unsigned(0,10)) after 11 ns,
+                    STD_LOGIC_VECTOR(to_unsigned(64,10)) after 16 ns;
+
+    wren <= '1' after 0 ns, '0' after 10.5 ns;
     wrdata <= STD_LOGIC_VECTOR(to_unsigned(9, 32)) after 0 ns,
-              STD_LOGIC_VECTOR(to_unsigned(24,32)) after 1 ns;
+              STD_LOGIC_VECTOR(to_unsigned(24,32)) after 6 ns;
     reset_n <= '0' after 0 ns;
     validate <= '1' after 0 ns;
     invalidate <= '0' after 0 ns;
 
     CLOCK:
-    clk <= '1' after 0.5 ns when clk = '0' else
-           '0' after 0.5 ns when clk = '1';
+    clk <= '1' after 5 ns when clk = '0' else
+           '0' after 5 ns when clk = '1';
 end test_bench;
