@@ -1,0 +1,4 @@
+*.o
+*_out
+work-obj93.cf
+*.vcd
