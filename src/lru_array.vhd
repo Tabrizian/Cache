@@ -29,7 +29,7 @@ begin
             last_k <= k;
         end if;
 
-        if(w0s(to_integer(unsigned(address))) >= w1s(to_integer(unsigned(address)))) then
+        if(w0s(to_integer(unsigned(address))) <= w1s(to_integer(unsigned(address)))) then
             w0_valid <= '1';
         else
             w0_valid <= '0';
