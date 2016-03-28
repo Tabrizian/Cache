@@ -20,8 +20,8 @@ architecture test_bench of lru_array_tb is
 begin
     mapping: lru_array port map(address,k,clk,w0_valid);
 
-    address <= "000000" after 0 ns;
-    k <= '0';
+    address <= "000000" after 0 ns, "000001" after 10 ns;
+    k <= '0', '1' after 10 ns;
 
     CLOCK:
     clk <= '1' after 1 ns when clk = '0' else
