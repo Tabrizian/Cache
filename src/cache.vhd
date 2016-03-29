@@ -42,6 +42,7 @@ architecture gate_level of cache is
              w0 : in STD_LOGIC_VECTOR(4 downto 0);
              w1 : in STD_LOGIC_VECTOR(4 downto 0);
              hit : out STD_LOGIC;
+             reset : in STD_LOGIC;
              w0_valid : out STD_LOGIC;
              w1_valid : out STD_LOGIC
          );
@@ -66,6 +67,7 @@ architecture gate_level of cache is
     signal hit_readable : STD_LOGIC;
     signal w0_valid, w1_valid : STD_LOGIC;
     signal w0_valid_lru : STD_LOGIC;
+    signal reset : STD_LOGIC := '0';
 begin
     --Data array instantiation--
     k0_data_array: data_array port map(clk => clk , wren => k0_wren, address =>
@@ -83,7 +85,7 @@ begin
 
     --Miss hit instantiation--
     miss_hit: miss_hit_logic port map(tag => full_address(9 downto 6),w0 => k0_tag_valid_out
-    ,w1 => k1_tag_valid_out,hit => hit_readable,w0_valid => w0_valid,w1_valid => w1_valid);
+    ,w1 => k1_tag_valid_out,hit => hit_readable,w0_valid => w0_valid,w1_valid => w1_valid,reset => reset);
 
     hit <= hit_readable;
     --Lru array instantiation--
@@ -92,8 +94,8 @@ begin
 
     mux_2 : mux port map(k, k0_data, k1_data, data);
 
-    k0_wren <= w0_valid_lru and wren;
-    k1_wren <= not w0_valid_lru and wren;
+    k <= (wren and (not w0_valid)) or ((not wren) and (not w0_valid));
 
-    k <= (w0_valid and not wren) and (w0_valid_lru and wren);
+    k0_wren <= (not hit_readable and w0_valid_lru and wren) or (hit_readable or w0_valid);
+    k1_wren <= ((not w0_valid_lru) and wren and not hit_readable) or (hit_readable or w1_valid);
 end gate_level;
