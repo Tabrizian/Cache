@@ -15,6 +15,7 @@ architecture behavorial of tag_valid_array is
     type data_array_data is array (63 downto 0) of STD_LOGIC_VECTOR(4 downto 0);
     signal data_array : data_array_data := (others => STD_LOGIC_VECTOR(to_unsigned(0,5)));
 begin
+    output <= data_array(to_integer(unsigned(address)));
     process(clk)
     begin
         if(wren = '1') then
@@ -25,14 +26,13 @@ begin
             data_array <= (others => STD_LOGIC_VECTOR(to_unsigned(0,5)));
         end if;
 
-        if(validate = '1') then
+        if(validate = '1' and wren = '1') then
             data_array(to_integer(unsigned(address)))(4) <= '1';
         end if;
 
-        if(invalidate ='1') then
+        if(invalidate ='1' and wren = '1') then
             data_array(to_integer(unsigned(address)))(4) <= '0';
         end if;
-        output <= data_array(to_integer(unsigned(address)));
 
     end process;
 end behavorial;

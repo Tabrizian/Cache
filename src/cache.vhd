@@ -6,10 +6,10 @@ entity cache is
     port(clk, wren, reset_n :in STD_LOGIC;
          full_address :in STD_LOGIC_VECTOR(9 downto 0);
          wrdata :in STD_LOGIC_VECTOR(31 downto 0);
-         validate, invalidate :in STD_LOGIC;
-         data: out STD_LOGIC_VECTOR(31 downto 0);
-         hit: out STD_LOGIC
-     );
+    validate, invalidate :in STD_LOGIC;
+    data: out STD_LOGIC_VECTOR(31 downto 0);
+    hit: out STD_LOGIC
+);
 end cache;
 
 architecture gate_level of cache is
@@ -68,29 +68,32 @@ architecture gate_level of cache is
     signal w0_valid_lru : STD_LOGIC;
 begin
     --Data array instantiation--
-    k0_data_array: data_array port map(clk ,k0_wren ,full_address(5 downto 0),wrdata , k0_data);
-    k1_data_array: data_array port map(clk ,k1_wren ,full_address(5 downto 0),wrdata , k1_data);
+    k0_data_array: data_array port map(clk => clk , wren => k0_wren, address =>
+        full_address(5 downto 0), wrdata => wrdata, data => k0_data);
+    k1_data_array: data_array port map(clk => clk , wren => k1_wren, address =>
+        full_address(5 downto 0), wrdata => wrdata, data => k1_data);
 
     --Tag valid instantiation--
-    k0_tag_valid: tag_valid_array port map(clk, k0_wren, reset_n,validate,invalidate,
-    full_address(5 downto 0), full_address(9 downto 6),k0_tag_valid_out);
+    k0_tag_valid: tag_valid_array port map(clk => clk, wren => k0_wren,
+                                           reset_n => reset_n,validate => validate,invalidate => invalidate,
+                                           address => full_address(5 downto 0), wrdata => full_address(9 downto 6),output => k0_tag_valid_out);
 
-    k1_tag_valid: tag_valid_array port map(clk, k1_wren, reset_n,validate,invalidate,
-    full_address(5 downto 0), full_address(9 downto 6),k1_tag_valid_out);
+    k1_tag_valid: tag_valid_array port map(clk => clk, wren => k1_wren, reset_n => reset_n,validate => validate, invalidate => invalidate,
+                                           address => full_address(5 downto 0), wrdata => full_address(9 downto 6),output => k1_tag_valid_out);
 
     --Miss hit instantiation--
-    miss_hit: miss_hit_logic port map(full_address(9 downto 6),k0_tag_valid_out
-    ,k1_tag_valid_out,w0_valid,w1_valid,hit_readable);
+    miss_hit: miss_hit_logic port map(tag => full_address(9 downto 6),w0 => k0_tag_valid_out
+    ,w1 => k1_tag_valid_out,hit => hit_readable,w0_valid => w0_valid,w1_valid => w1_valid);
 
     hit <= hit_readable;
     --Lru array instantiation--
-    lru_logic: lru_array port map(full_address(5 downto 0),k,
-    clk,w0_valid_lru);
-
-    k <= (wren and (not w0_valid)) or ((not wren) and (not w0_valid));
-
-    k0_wren <= (not hit_readable and w0_valid_lru and wren) or (hit_readable or w0_valid);
-    k1_wren <= ((not w0_valid_lru) and wren and not hit_readable) or (hit_readable or w1_valid);
+    lru_logic: lru_array port map(address => full_address(5 downto 0),k => k,
+                                  clk => clk,w0_valid => w0_valid_lru);
 
     mux_2 : mux port map(k, k0_data, k1_data, data);
+
+    k0_wren <= w0_valid_lru and wren;
+    k1_wren <= not w0_valid_lru and wren;
+
+    k <= (w0_valid and not wren) and (w0_valid_lru and wren);
 end gate_level;

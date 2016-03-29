@@ -10,7 +10,7 @@ TESTFILES = $(TESTDIR)/data_array_tb.vhd $(TESTDIR)/tag_valid_array_tb.vhd \
 			$(TESTDIR)/miss_hit_logic_tb.vhd $(TESTDIR)/lru_array_tb.vhd \
 			$(TESTDIR)/cache_tb.vhd $(TESTDIR)/mux_tb.vhd
 SUFFIX = _out# Suffix of files created using -e option
-MODULE = lru_array_tb# Show wave of this module
+MODULE = cache_tb# Show wave of this module
 STOPTIME = 40ns
 
 # Run

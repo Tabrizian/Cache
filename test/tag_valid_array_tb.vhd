@@ -25,7 +25,7 @@ begin
     mapping: tag_valid_array port map(clk,wren,reset_n,invalidate,validate,address,wrdata,output);
 
     address <= "000000" after 0 ns, "111111" after 10 ns, "000000" after 20 ns;
-    wren <= '1' after 0 ns, '0' after 20 ns;
+    wren <= '0' after 0 ns, '0' after 20 ns;
 
     wrdata <= STD_LOGIC_VECTOR(to_unsigned(9, 4)) after 0 ns,
               STD_LOGIC_VECTOR(to_unsigned(7, 4)) after 10 ns;
@@ -35,5 +35,5 @@ begin
     validate <= '1';
     CLOCK:
     clk <= '1' after 1 ns when clk = '0' else
-             '0' after 1 ns when clk = '1';
+           '0' after 1 ns when clk = '1';
 end test_bench;
