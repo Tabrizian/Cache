@@ -8,7 +8,8 @@ entity cache is
          wrdata :in STD_LOGIC_VECTOR(31 downto 0);
     validate, invalidate :in STD_LOGIC;
     data: out STD_LOGIC_VECTOR(31 downto 0);
-    hit: out STD_LOGIC
+    hit: out STD_LOGIC;
+    cache_ready: out STD_LOGIC
 );
 end cache;
 
@@ -33,6 +34,7 @@ architecture gate_level of cache is
         port(address : in STD_LOGIC_VECTOR(5 downto 0);
              k : in STD_LOGIC;
              clk : in STD_LOGIC;
+             enable : in STD_LOGIC;
              w0_valid : out STD_LOGIC
          );
     end component;
@@ -42,7 +44,6 @@ architecture gate_level of cache is
              w0 : in STD_LOGIC_VECTOR(4 downto 0);
              w1 : in STD_LOGIC_VECTOR(4 downto 0);
              hit : out STD_LOGIC;
-             reset : in STD_LOGIC;
              w0_valid : out STD_LOGIC;
              w1_valid : out STD_LOGIC
          );
@@ -61,13 +62,13 @@ architecture gate_level of cache is
     signal k1_data : STD_LOGIC_VECTOR(31 downto 0);
     signal k0_tag_valid_out : STD_LOGIC_VECTOR(4 downto 0);
     signal k1_tag_valid_out : STD_LOGIC_VECTOR(4 downto 0);
-    signal k0_wren : STD_LOGIC;
-    signal k1_wren : STD_LOGIC;
-    signal k : STD_LOGIC;
+    signal k0_wren : STD_LOGIC := '1';
+    signal k1_wren : STD_LOGIC := '0';
+    signal enable : STD_LOGIC := '1';
+    signal k : STD_LOGIC := '0';
     signal hit_readable : STD_LOGIC;
     signal w0_valid, w1_valid : STD_LOGIC;
     signal w0_valid_lru : STD_LOGIC;
-    signal reset : STD_LOGIC := '0';
 begin
     --Data array instantiation--
     k0_data_array: data_array port map(clk => clk , wren => k0_wren, address =>
@@ -85,17 +86,55 @@ begin
 
     --Miss hit instantiation--
     miss_hit: miss_hit_logic port map(tag => full_address(9 downto 6),w0 => k0_tag_valid_out
-    ,w1 => k1_tag_valid_out,hit => hit_readable,w0_valid => w0_valid,w1_valid => w1_valid,reset => reset);
+    ,w1 => k1_tag_valid_out,hit => hit_readable,w0_valid => w0_valid,w1_valid => w1_valid);
 
     hit <= hit_readable;
     --Lru array instantiation--
     lru_logic: lru_array port map(address => full_address(5 downto 0),k => k,
-                                  clk => clk,w0_valid => w0_valid_lru);
+                                  clk => clk,w0_valid => w0_valid_lru, enable => enable);
 
     mux_2 : mux port map(k, k0_data, k1_data, data);
 
-    k <= (wren and (not w0_valid)) or ((not wren) and (not w0_valid));
 
-    k0_wren <= (not hit_readable and w0_valid_lru and wren) or (hit_readable or w0_valid);
-    k1_wren <= ((not w0_valid_lru) and wren and not hit_readable) or (hit_readable or w1_valid);
+    process(clk)
+        variable current : integer := 0;
+        constant begin_write : integer := 1;
+        constant begin_read : integer := 2;
+        constant start : integer := 0;
+        variable one_loop : integer := 0;
+        variable current_address : STD_LOGIC_VECTOR(9 downto 0);
+    begin
+        if(current = 0) then
+            if(wren = '1') then
+                current := begin_write;
+                k0_wren <= '0';
+                k1_wren <= '0';
+                cache_ready <= '0';
+                current_address := full_address;
+                enable <= '0';
+
+            else
+                current := start;
+                k1_wren <= '0';
+                if(one_loop = 1) then
+                    k0_wren <= '0';
+                end if;
+
+            end if;
+        elsif(current = begin_write) then
+            if(current_address = full_address) then
+                current := start;
+                k0_wren <= (not hit_readable and w0_valid_lru and wren) or (hit_readable and w0_valid and wren);
+                k1_wren <= ((not w0_valid_lru) and wren and not hit_readable) or (hit_readable and w1_valid and wren);
+                k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
+                enable <= '1';
+                one_loop := 1;
+                cache_ready <= '1';
+            else
+                k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
+                one_loop := 1;
+                current := start;
+            end if;
+        end if;
+    end process;
 end gate_level;

@@ -6,6 +6,7 @@ entity lru_array is
     port(address : in STD_LOGIC_VECTOR(5 downto 0);
          k : in STD_LOGIC;
          clk : in STD_LOGIC;
+         enable : in STD_LOGIC;
          w0_valid : out STD_LOGIC
      );
 end entity;
@@ -19,20 +20,22 @@ architecture behavorial of lru_array is
 begin
     process (clk)
     begin
-        if(k = '0' and (last_address /= address or k /= last_k)) then
-            w0s(to_integer(unsigned(address))) <= w0s(to_integer(unsigned(address))) + 1;
-            last_address <= address;
-            last_k <= k;
-        elsif(k = '1' and (last_address /= address or k /= last_k)) then
-            w1s(to_integer(unsigned(address))) <= w1s(to_integer(unsigned(address))) + 1;
-            last_address <= address;
-            last_k <= k;
-        end if;
+        if(enable = '1') then
+            if(k = '0' and (last_address /= address or k /= last_k)) then
+                w0s(to_integer(unsigned(address))) <= w0s(to_integer(unsigned(address))) + 1;
+                last_address <= address;
+                last_k <= k;
+            elsif(k = '1' and (last_address /= address or k /= last_k)) then
+                w1s(to_integer(unsigned(address))) <= w1s(to_integer(unsigned(address))) + 1;
+                last_address <= address;
+                last_k <= k;
+            end if;
 
-        if(w0s(to_integer(unsigned(address))) <= w1s(to_integer(unsigned(address)))) then
-            w0_valid <= '1';
-        else
-            w0_valid <= '0';
+            if(w0s(to_integer(unsigned(address))) <= w1s(to_integer(unsigned(address)))) then
+                                                     w0_valid <= '1';
+                                                 else
+                                                     w0_valid <= '0';
+                                                 end if;
         end if;
     end process;
 end behavorial;
