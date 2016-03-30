@@ -118,6 +118,7 @@ begin
                 k1_wren <= '0';
                 if(one_loop = 1) then
                     k0_wren <= '0';
+                k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
                 end if;
 
             end if;
