@@ -38,9 +38,20 @@ begin
                         validate <= '1';
                         invalidate <= '0';
                     else
-
+                        wr_ram <= '0';
+                        wr_cache <= '1';
+                        validate <= '1';
+                        invalidate <= '0';
+                        current_state := begin_write_cache;
                     end if;
                 end if;
+            end if;
+        elsif( current_state = begin_write_cache) then
+            if(cache_ready = '1') then
+                current_state := initial;
+                wr_cache <= '0';
+                validate <= '0';
+                invalidate <= '0';
             end if;
         end if;
     end process;
