@@ -27,7 +27,7 @@ begin
 
     full_address <= STD_LOGIC_VECTOR(to_unsigned(0,10)) after 0 ns,
                     STD_LOGIC_VECTOR(to_unsigned(64,10)) after 6 ns,
-                    STD_LOGIC_VECTOR(to_unsigned(0,10)) after 12 ns,
+                    STD_LOGIC_VECTOR(to_unsigned(0,10)) after 11 ns,
                     STD_LOGIC_VECTOR(to_unsigned(64,10)) after 16 ns;
 
     wren <= '1' after 0 ns, '0' after 10.5 ns;

@@ -9,7 +9,7 @@ entity cache is
     validate, invalidate :in STD_LOGIC;
     data: out STD_LOGIC_VECTOR(31 downto 0);
     hit: out STD_LOGIC;
-    cache_ready: out STD_LOGIC
+    cache_ready: out STD_LOGIC := '1'
 );
 end cache;
 
@@ -102,28 +102,36 @@ begin
         constant begin_read : integer := 2;
         constant start : integer := 0;
         variable one_loop : integer := 0;
-        variable current_address : STD_LOGIC_VECTOR(9 downto 0);
+        variable address_to_be_written: STD_LOGIC_VECTOR(9 downto 0);
+        variable last_address : STD_LOGIC_VECTOR(9 downto 0);
+        variable last_write : STD_LOGIC;
+        variable last_wrdata : STD_LOGIC_VECTOR(31 downto 0);
     begin
-        if(current = 0) then
-            if(wren = '1') then
-                current := begin_write;
+        if(current = start) then
+            if(last_address /= full_address or last_write /= wren) then
+                if(wren = '1') then
+                    current := begin_write;
+                    k0_wren <= '0';
+                    k1_wren <= '0';
+                    cache_ready <= '0';
+                    enable <= '0';
+                    address_to_be_written := full_address;
+                else
+                    current := start;
+                    k1_wren <= '0';
+                    if(one_loop = 1) then
+                        k0_wren <= '0';
+                        k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
+                    end if;
+
+                end if;
+            else
                 k0_wren <= '0';
                 k1_wren <= '0';
-                cache_ready <= '0';
-                current_address := full_address;
                 enable <= '0';
-
-            else
-                current := start;
-                k1_wren <= '0';
-                if(one_loop = 1) then
-                    k0_wren <= '0';
-                k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
-                end if;
-
             end if;
         elsif(current = begin_write) then
-            if(current_address = full_address) then
+            if(address_to_be_written = full_address) then
                 current := start;
                 k0_wren <= (not hit_readable and w0_valid_lru and wren) or (hit_readable and w0_valid and wren);
                 k1_wren <= ((not w0_valid_lru) and wren and not hit_readable) or (hit_readable and w1_valid and wren);
@@ -137,5 +145,8 @@ begin
                 current := start;
             end if;
         end if;
+        last_address := full_address;
+        last_wrdata := wrdata;
+        last_write := wren;
     end process;
 end gate_level;

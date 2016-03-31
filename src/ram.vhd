@@ -4,12 +4,11 @@ use IEEE.numeric_std.all;
 
 entity ram is
     port(clk, wr:in STD_LOGIC;
-         -- Address size is equal to index * 2 + tag
+         -- Address size is equal to index + tag
          address:in STD_LOGIC_VECTOR(9 downto 0);
          data_in:in STD_LOGIC_VECTOR(31 downto 0);
          data_out:out STD_LOGIC_VECTOR(31 downto 0);
-         ram_ready:out STD_LOGIC := '0';
-         data_read:out STD_LOGIC
+         ram_ready:out STD_LOGIC := '0'
      );
 end ram;
 
@@ -18,6 +17,7 @@ architecture behavorial_data_array of ram is
     signal data_array : data_array_data;
 begin
     data_out <= data_array(to_integer(unsigned(address)));
+
     process(clk)
     begin
         ram_ready <= '0';
