@@ -30,7 +30,7 @@ begin
             data_array(to_integer(unsigned(address)))(4) <= '1';
         end if;
 
-        if(invalidate ='1' and wren = '1') then
+        if(invalidate ='1') then
             data_array(to_integer(unsigned(address)))(4) <= '0';
         end if;
 
