@@ -6,10 +6,13 @@ entity controller is
     port(wr : in STD_LOGIC;
          hit : in STD_LOGIC;
          clk : in STD_LOGIC;
-    cache_ready,ram_ready : in STD_LOGIC := '0';
-    wr_cache,wr_ram,invalidate : out STD_LOGIC := '0';
-    validate : out STD_LOGIC := '1'
-);
+         cache_ready: in STD_LOGIC := '0';
+         ram_ready : in STD_LOGIC := '0';
+         wr_cache: out STD_LOGIC := '0';
+         wr_ram: out STD_LOGIC := '0';
+         invalidate : out STD_LOGIC := '0';
+         validate : out STD_LOGIC := '1'
+     );
 end controller;
 
 architecture behavorial of controller is

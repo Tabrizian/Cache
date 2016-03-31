@@ -6,11 +6,12 @@ entity cache is
     port(clk, wren, reset_n :in STD_LOGIC;
          full_address :in STD_LOGIC_VECTOR(9 downto 0);
          wrdata :in STD_LOGIC_VECTOR(31 downto 0);
-    validate, invalidate :in STD_LOGIC;
-    data: out STD_LOGIC_VECTOR(31 downto 0);
-    hit: out STD_LOGIC;
-    cache_ready: out STD_LOGIC := '1'
-);
+         validate : in STD_LOGIC;
+         invalidate :in STD_LOGIC;
+         data: out STD_LOGIC_VECTOR(31 downto 0);
+         hit: out STD_LOGIC;
+         cache_ready: out STD_LOGIC := '1'
+     );
 end cache;
 
 architecture gate_level of cache is
