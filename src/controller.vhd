@@ -19,7 +19,7 @@ end controller;
 architecture behavorial of controller is
     constant initial : integer := 0;
     constant begin_write_cache : integer := 1;
-    constant s2 : integer := 2;
+    constant started_cache_write : integer := 2;
     constant s3 : integer := 3;
     constant s4 : integer := 4;
     constant s5 : integer := 5;
@@ -52,9 +52,17 @@ begin
             end if;
         elsif( current_state = begin_write_cache) then
             if(cache_ready = '1') then
+                current_state := started_cache_write;
+                wr_cache <= '1';
+                validate <= '1';
+                invalidate <= '0';
+            end if;
+
+        elsif( current_state = started_cache_write ) then
+            if(cache_ready = '1') then
                 current_state := initial;
-                wr_cache <= '0';
-                validate <= '0';
+                wr_cache <= '1';
+                validate <= '1';
                 invalidate <= '0';
             end if;
         end if;
