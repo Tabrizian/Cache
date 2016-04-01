@@ -3,7 +3,7 @@ SRCDIR = src
 FILES = $(SRCDIR)/data_array.vhd $(SRCDIR)/tag_valid_array.vhd \
 		$(SRCDIR)/miss_hit_logic.vhd $(SRCDIR)/lru_array.vhd \
 		$(SRCDIR)/cache.vhd $(SRCDIR)/mux.vhd $(SRCDIR)/controller.vhd \
-		$(SRCDIR)/cache_ram.vhd
+		$(SRCDIR)/cache_ram.vhd $(SRCDIR)/ram.vhd
 
 # Testbench
 TESTDIR = test
