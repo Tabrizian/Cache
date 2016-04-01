@@ -63,7 +63,7 @@ architecture gate_level of cache is
     signal k1_data : STD_LOGIC_VECTOR(31 downto 0);
     signal k0_tag_valid_out : STD_LOGIC_VECTOR(4 downto 0);
     signal k1_tag_valid_out : STD_LOGIC_VECTOR(4 downto 0);
-    signal k0_wren : STD_LOGIC := '1';
+    signal k0_wren : STD_LOGIC := '0';
     signal k1_wren : STD_LOGIC := '0';
     signal enable : STD_LOGIC := '1';
     signal k : STD_LOGIC := '0';
