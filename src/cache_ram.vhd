@@ -34,7 +34,8 @@ architecture dataflow of cache_ram is
     end component;
 
     component controller is
-        port(wr : in STD_LOGIC;
+        port(write : in STD_LOGIC;
+             read : in STD_LOGIC;
              hit : in STD_LOGIC;
              clk : in STD_LOGIC;
              cache_ready: in STD_LOGIC := '0';
@@ -50,6 +51,14 @@ architecture dataflow of cache_ram is
     signal wr_ram : STD_LOGIC;
     signal invalidate : STD_LOGIC;
     signal validate : STD_LOGIC;
+    signal wren : STD_LOGIC := '0';
+    signal hit_out : STD_LOGIC;
+    signal cache_ready : STD_LOGIC := '1';
+    signal ram_out : STD_LOGIC_VECTOR( 31 downto 0);
+    signal ram_ready : STD_LOGIC;
+
 begin
-    cache_instance : cache port map(clk, wr_cache, reset_n, addr,
+    cache_instance : cache port map(clk, wr_cache, reset_n, addr, ram_out, validate,invalidate,rddata,hit_out,cache_ready);
+    ram_instance : ram port map(clk, wr_ram, addr, wrdata, ram_out, ram_ready);
+    controler_instance: controller port map(write, read, hit_out, clk, cache_ready, ram_ready, wr_cache,wr_ram,invalidate,validate);
 end dataflow;
