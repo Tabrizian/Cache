@@ -3,7 +3,8 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity controller is
-    port(wr : in STD_LOGIC;
+    port(write : in STD_LOGIC;
+         read: in STD_LOGIC;
          hit : in STD_LOGIC;
          clk : in STD_LOGIC;
          cache_ready: in STD_LOGIC := '0';
@@ -28,12 +29,12 @@ begin
         variable current_state : integer := initial;
     begin
         if( current_state = initial) then
-            if(wr = '1') then
+            if(write = '1' and read = '0') then
                 wr_ram <= '1';
                 wr_cache <= '0';
                 validate <= '0';
                 invalidate <= '1';
-            else
+            elsif(write = '0' and read = '1') then
                 if(cache_ready = '1') then
                     if (hit = '1') then
                         wr_ram <= '0';
