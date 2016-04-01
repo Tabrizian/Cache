@@ -29,6 +29,8 @@ begin
             STD_LOGIC_VECTOR(to_unsigned(13,10)) after 5 ns,
             STD_LOGIC_VECTOR(to_unsigned(0,10)) after 10 ns;
 
+    wrdata <= STD_LOGIC_VECTOR(to_unsigned(56,10)),
+              STD_LOGIC_VECTOR(to_unsigned(98,10)) after 5 ns;
     write <= '1', '0' after 10 ns;
     read <= '0', '1' after 10 ns;
     reset_n <= '0';
