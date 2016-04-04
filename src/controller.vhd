@@ -20,10 +20,6 @@ architecture behavorial of controller is
     constant initial : integer := 0;
     constant begin_write_cache : integer := 1;
     constant started_cache_write : integer := 2;
-    constant s3 : integer := 3;
-    constant s4 : integer := 4;
-    constant s5 : integer := 5;
-
 begin
     process(clk)
         variable current_state : integer := initial;
