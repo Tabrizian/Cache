@@ -36,6 +36,7 @@ architecture gate_level of cache is
              k : in STD_LOGIC;
              clk : in STD_LOGIC;
              enable : in STD_LOGIC;
+        reset : in STD_LOGIC;
              w0_valid : out STD_LOGIC
          );
     end component;
@@ -92,7 +93,7 @@ begin
     hit <= hit_readable;
     --Lru array instantiation--
     lru_logic: lru_array port map(address => full_address(5 downto 0),k => k,
-                                  clk => clk,w0_valid => w0_valid_lru, enable => enable);
+                                  clk => clk,reset=> invalidate,w0_valid => w0_valid_lru, enable => enable);
 
     mux_2 : mux port map(k, k0_data, k1_data, data);
 
