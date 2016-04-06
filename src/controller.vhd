@@ -29,7 +29,9 @@ begin
                 wr_ram <= '1';
                 wr_cache <= '0';
                 validate <= '0';
-                invalidate <= '1';
+                if(hit = '1') then
+                    invalidate <= '1';
+                end if;
             elsif(write = '0' and read = '1') then
                 if(cache_ready = '1') then
                     if (hit = '1') then
