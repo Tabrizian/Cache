@@ -7,6 +7,7 @@ entity lru_array is
          k : in STD_LOGIC;
          clk : in STD_LOGIC;
          enable : in STD_LOGIC;
+         reset : in STD_LOGIC;
          w0_valid : out STD_LOGIC
      );
 end entity;
@@ -20,7 +21,13 @@ architecture behavorial of lru_array is
 begin
     process (clk)
     begin
-        if(enable = '1') then
+        if(reset = '1') then
+            if(k = '0') then
+                w0s(to_integer(unsigned(address))) <= 0;
+            else
+                w1s(to_integer(unsigned(address))) <= 0;
+            end if;
+        elsif(enable = '1') then
             if(k = '0' and (last_address /= address or k /= last_k)) then
                 w0s(to_integer(unsigned(address))) <= w0s(to_integer(unsigned(address))) + 1;
                 last_address <= address;
@@ -37,5 +44,6 @@ begin
                                                      w0_valid <= '0';
                                                  end if;
         end if;
+
     end process;
 end behavorial;
