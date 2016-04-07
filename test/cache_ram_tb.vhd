@@ -24,18 +24,36 @@ architecture test_bench of cache_ram_tb is
 begin
     mapping : cache_ram port map (reset_n, clk, read, write, addr, wrdata,
     rddata, hit);
+    addr <= std_logic_vector(to_unsigned(52,10)),
+            std_logic_vector(to_unsigned(0,10)) after 320 ns,
+            std_logic_vector(to_unsigned(1,10)) after 620 ns,
+            std_logic_vector(to_unsigned(64,10)) after 920 ns,
+            std_logic_vector(to_unsigned(0,10)) after 1220 ns,
+            std_logic_vector(to_unsigned(1,10)) after 1520 ns,
+            std_logic_vector(to_unsigned(0,10)) after 1820 ns,
+            std_logic_vector(to_unsigned(64,10)) after 2120 ns,
+            std_logic_vector(to_unsigned(65,10)) after 2420 ns,
+            std_logic_vector(to_unsigned(0,10)) after 2720 ns;
 
-    addr <= STD_LOGIC_VECTOR(to_unsigned(0,10)),
-            STD_LOGIC_VECTOR(to_unsigned(13,10)) after 5 ns,
-            STD_LOGIC_VECTOR(to_unsigned(0,10)) after 10 ns;
 
-    wrdata <= STD_LOGIC_VECTOR(to_unsigned(56,32)),
-              STD_LOGIC_VECTOR(to_unsigned(98,32)) after 5 ns;
-    write <= '1', '0' after 9 ns;
-    read <= '0', '1' after 9 ns;
-    reset_n <= '0';
+
+    wrdata <= std_logic_vector(to_unsigned(13,32)),
+              std_logic_vector(to_unsigned(52,32)) after 320 ns,
+              std_logic_vector(to_unsigned(12,32)) after 620 ns,
+              std_logic_vector(to_unsigned(4,32)) after 920 ns,
+              std_logic_vector(to_unsigned(25,32)) after 2420 ns,
+              std_logic_vector(to_unsigned(70,32)) after 2720 ns;
+
+
+
+    write <= '1', '0' after 70 ns , '1' after 320 ns , '0' after 370 ns , '1' after 620 ns , '0' after 670 ns ,
+             '1' after 920 ns , '0' after 970 ns , '1' after 2420 ns , '0' after 2470 ns , '1' after 2720 ns , '0' after 2770 ns;
+    read <= '0', '1' after 1220 ns , '0' after 1270 ns , '1' after 1520 ns , '0' after 1570 ns , '1' after 1820 ns ,
+            '0' after 1870 ns , '1' after 2120 ns , '0' after 2170 ns ;
+
+    reset_n <= '0' , '1' after 3020 ns ;
 
     CLOCK:
-    clk <= '1' after 1 ns when clk = '0' else
-           '0' after 1 ns when clk = '1';
+    clk <= '1' after 25 ns when clk = '0' else
+           '0' after 25 ns when clk = '1';
 end test_bench;
