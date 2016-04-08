@@ -57,14 +57,17 @@ architecture dataflow of cache_ram is
     signal ram_out : STD_LOGIC_VECTOR( 31 downto 0);
     signal ram_ready : STD_LOGIC;
     signal cache_out : STD_LOGIC_VECTOR (31 downto 0);
+    signal which : STD_LOGIC;
 
 begin
     cache_instance : cache port map(clk, wr_cache, reset_n, addr, ram_out, validate,invalidate,cache_out,hit_out,cache_ready);
     ram_instance : ram port map(clk, wr_ram, addr, wrdata, ram_out, ram_ready);
     controler_instance: controller port map(write, read, hit_out, clk, cache_ready, ram_ready, wr_cache,wr_ram,invalidate,validate);
 
+    which <= read;
     hit <= hit_out;
     rddata <= ram_out when write = '1' else
-                    cache_out when read = '1';
+              cache_out when read = '1' else
+              ram_out;
 
 end dataflow;
