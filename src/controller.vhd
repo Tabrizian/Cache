@@ -47,6 +47,12 @@ begin
                         current_state := begin_write_cache;
                     end if;
                 end if;
+            else
+                wr_ram <= '0';
+                wr_cache <= '0';
+                validate <= '0';
+                invalidate <= '0';
+
             end if;
         elsif( current_state = begin_write_cache) then
             if(cache_ready = '1') then
