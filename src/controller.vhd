@@ -54,6 +54,7 @@ begin
                 wr_cache <= '1';
                 validate <= '1';
                 invalidate <= '0';
+                wr_ram <= '0';
             end if;
 
         elsif( current_state = started_cache_write ) then
@@ -61,6 +62,7 @@ begin
                 current_state := initial;
                 wr_cache <= '1';
                 validate <= '1';
+                wr_ram <= '0';
                 invalidate <= '0';
             end if;
         end if;
