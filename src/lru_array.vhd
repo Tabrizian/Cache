@@ -27,6 +27,8 @@ begin
             else
                 w1s(to_integer(unsigned(address))) <= 0;
             end if;
+            last_address <= "ZZZZZZ";
+            last_k <= "ZZZZZZ";
         elsif(enable = '1') then
             if(k = '0' and (last_address /= address or k /= last_k)) then
                 w0s(to_integer(unsigned(address))) <= w0s(to_integer(unsigned(address))) + 1;

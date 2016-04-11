@@ -22,7 +22,7 @@ architecture test_bench of lru_array_tb is
     signal reset : STD_LOGIC := '0';
     signal enable : STD_LOGIC := '1';
 begin
-    mapping: lru_array port map(address,k,clk,reset,w0_valid);
+    mapping: lru_array port map(address,k,clk,enable,reset,w0_valid);
 
     address <= "000000" after 0 ns, "000001" after 10 ns;
     k <= '0', '1' after 10 ns;
