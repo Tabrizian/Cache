@@ -68,6 +68,6 @@ begin
     hit <= hit_out;
     rddata <= ram_out when write = '1' else
               cache_out when read = '1' else
-              ram_out;
+              cache_out;
 
 end dataflow;
