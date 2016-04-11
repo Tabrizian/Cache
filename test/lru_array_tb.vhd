@@ -20,12 +20,13 @@ architecture test_bench of lru_array_tb is
     signal k,w0_valid : STD_LOGIC;
     signal clk : STD_LOGIC := '0';
     signal reset : STD_LOGIC := '0';
-    signal enable : STD_LOGIC := '1';
+    signal enable : STD_LOGIC;
 begin
     mapping: lru_array port map(address,k,clk,enable,reset,w0_valid);
 
-    address <= "000000" after 0 ns, "000001" after 10 ns;
-    k <= '0', '1' after 10 ns;
+    address <= "000000" after 0 ns, "000001" after 10 ns, "000000" after 16 ns, "000001" after 18 ns;
+    k <= '0', '1' after 10 ns, '0' after 15 ns;
+    enable <= '1','0' after 9 ns, '1' after 12 ns;
 
     CLOCK:
     clk <= '1' after 1 ns when clk = '0' else
