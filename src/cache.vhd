@@ -36,7 +36,7 @@ architecture gate_level of cache is
              k : in STD_LOGIC;
              clk : in STD_LOGIC;
              enable : in STD_LOGIC;
-        reset : in STD_LOGIC;
+             reset : in STD_LOGIC;
              w0_valid : out STD_LOGIC
          );
     end component;
@@ -110,7 +110,7 @@ begin
         variable last_wrdata : STD_LOGIC_VECTOR(31 downto 0);
     begin
         if(current = start) then
-            if(last_address /= full_address or last_write /= wren) then
+            if(last_address /= full_address or last_write /= wren or wrdata /= last_wrdata) then
                 if(wren = '1') then
                     current := begin_write;
                     k0_wren <= '0';
@@ -121,13 +121,14 @@ begin
                 else
                     current := start;
                     k1_wren <= '0';
+                    k <= w1_valid;
                     if(one_loop = 1) then
                         k0_wren <= '0';
-                        k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
                     end if;
 
                 end if;
             else
+                k <= w1_valid;
                 k0_wren <= '0';
                 k1_wren <= '0';
                 enable <= '0';
@@ -137,12 +138,11 @@ begin
                 current := start;
                 k0_wren <= (not hit_readable and w0_valid_lru and wren) or (hit_readable and w0_valid and wren);
                 k1_wren <= ((not w0_valid_lru) and wren and not hit_readable) or (hit_readable and w1_valid and wren);
-                k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
+                k <= (not hit_readable and w0_valid_lru and wren) or (hit_readable and w0_valid and wren);
                 enable <= '1';
                 one_loop := 1;
                 cache_ready <= '1';
             else
-                k <= (not w0_valid and hit_readable and not wren) or (wren and k0_wren);
                 one_loop := 1;
                 current := start;
             end if;
