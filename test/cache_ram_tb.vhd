@@ -54,6 +54,6 @@ begin
     reset_n <= '0' , '1' after 3020 ns ;
 
     CLOCK:
-    clk <= '1' after 25 ns when clk = '0' else
-           '0' after 25 ns when clk = '1';
+    clk <= '1' after 1 ns when clk = '0' else
+           '0' after 1 ns when clk = '1';
 end test_bench;
