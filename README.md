@@ -1,4 +1,4 @@
-#Cache and RAM  
+# Cache and RAM  
 ## Introduction  
 This project is intended to create a sample and simple implementation of the 
 cache and RAM using VHDL.  
